@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState } from "react";
 
 
@@ -36,8 +37,8 @@ function Login() {
                 name="first-name"
                 placeholder="Username"
                 value={username}
-                onInput={(e)=>{
-                  setUsername(e.target.value);
+                onInput={(event: React.ChangeEvent<HTMLInputElement>)=>{
+                  setUsername(event.target.value);
                 }}
               />
             </div>
@@ -54,7 +55,7 @@ function Login() {
             </div>
             <div className="field">
               <div className="ui checkbox">
-                <input type="checkbox" tabindex="0" className="hidden"/>
+                <input type="checkbox" className="hidden"/>
                 <label>I agree to the Terms and Conditions</label>
               </div>
             </div>
