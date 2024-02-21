@@ -1,6 +1,8 @@
 import React from 'react'
 import './App.css';
 import Login from "./pages/login.tsx"
+import Menu from './components/menu/index.tsx'
+import { Account } from "./features/account/Account.tsx";
 import { useEffect, useState } from 'react';
 
 function App() {
@@ -36,33 +38,40 @@ function App() {
 
   // CONDITIONAL RENDERING
 
-  if ( isAuthenticating ) {
-    return (
-      <div
-        className="ui segment"
-        style={{
-          height: "100vh",
-        }}
-      >
-        <div className="ui active inverted centered inline dimmer">
-          <div className="ui large text loader">Authenticating</div>
-        </div>
-        <p></p>
-        <p></p>
-        <p></p>
-      </div>
-    );
-  } else if ( !userToken ) {
-    return (
-      <Login />
-    )
-  } else {
-    return (
-      <div>
-        Home
-      </div>
-    )
-  }
+  // if ( isAuthenticating ) {
+  //   return (
+  //     <div
+  //       className="ui segment"
+  //       style={{
+  //         height: "100vh",
+  //       }}
+  //     >
+  //       <div className="ui active inverted centered inline dimmer">
+  //         <div className="ui large text loader">Authenticating</div>
+  //       </div>
+  //       <p></p>
+  //       <p></p>
+  //       <p></p>
+  //     </div>
+  //   );
+  // } else if ( !userToken ) {
+  //   return (
+  //     <Login />
+  //   )
+  // } else {
+  //   return (
+  //     <div>
+  //       Home
+  //     </div>
+  //   )
+  // }
+
+  return (
+    <div>
+      <Menu/>
+      {/* <Account/> */}
+    </div>
+  )
 
 
 }
