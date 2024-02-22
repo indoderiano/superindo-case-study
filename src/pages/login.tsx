@@ -1,5 +1,10 @@
 import React from 'react'
 import { useState } from "react";
+import axios from 'axios';
+
+import { useAppDispatch } from "../app/hooks.ts"
+import { updateUserData } from "../features/account/accountSlice.ts"
+
 
 
 
@@ -9,10 +14,33 @@ function Login() {
   let [username, setUsername] = useState("");
   let [password, setPassword] = useState("");
 
+  let dispatch = useAppDispatch();
+
 
   let requestLogin = () => {
     console.log("LOGIN...")
     console.log(username)
+    console.log(password)
+
+    let API_URL = process.env.REACT_APP_API;
+    console.log("API ENV IS ", API_URL);
+
+    let payload = {
+      username,
+      password
+    };
+    
+    axios.post(`${API_URL}/users/login`, payload)
+    // axios.get(`${API_URL}/users/users`)
+    .then((result) => {
+      console.log("login success");
+      console.log(result.data);
+      let user_data = result.data;
+      dispatch(updateUserData(user_data))
+    })
+    .catch((error) => {
+      console.log(error.response.data.error_description)
+    })
   }
 
 
@@ -63,6 +91,7 @@ function Login() {
               className="ui button"
               // type="submit"
               onClick={requestLogin}
+              // onClick={() => dispatch(updateRole("customer"))}
             >Submit</button>
           </div>
       </div>

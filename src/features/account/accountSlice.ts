@@ -5,16 +5,25 @@ import { fetchCount } from "./accountAPI.ts"
 
 export interface CounterSliceState {
   value: number
-  role: string
   username: string
+  email: string
+  role: string
   access_token: string
   status: "idle" | "loading" | "failed"
 }
 
+export interface UserData {
+  username: string
+  email: string
+  role: string
+  access_token: string
+}
+
 const initialState: CounterSliceState = {
   value: 0,
-  role: "customer",
   username: "user",
+  email: "",
+  role: "",
   access_token: "",
   status: "idle",
 }
@@ -26,9 +35,13 @@ export const accountSlice = createAppSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: create => ({
-    updateUsername: create.reducer(
-      ( state, action: PayloadAction<string>) => {
-        state.username = action.payload
+    updateUserData: create.reducer(
+      ( state, action: PayloadAction<UserData>) => {
+        let user_data = action.payload;
+        state.username = user_data.username;
+        state.email = user_data.email;
+        state.role = user_data.role;
+        state.access_token = user_data.access_token;
       },
     ),
     increment: create.reducer(state => {
@@ -83,7 +96,7 @@ export const accountSlice = createAppSlice({
 })
 
 // Action creators are generated for each case reducer function.
-export const { decrement, increment, incrementByAmount, incrementAsync } =
+export const { updateUserData, decrement, increment, incrementByAmount, incrementAsync } =
   accountSlice.actions
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.

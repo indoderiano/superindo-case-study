@@ -24,7 +24,7 @@ function Menu() {
     return (
       <MenuCustomer/>
     )
-  } else if ( role == "admin" ) {
+  } else if ( role == "administrator" ) {
     return (
       <MenuAdmin/>
     )

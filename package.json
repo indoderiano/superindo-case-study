@@ -38,7 +38,7 @@
     ]
   },
   "devDependencies": {
-    "@types/node": "^20.11.19",
-    "@reduxjs/toolkit": "^2.0.1"
+    "@reduxjs/toolkit": "^2.0.1",
+    "@types/node": "^20.11.19"
   }
 }
