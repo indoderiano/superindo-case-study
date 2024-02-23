@@ -14,11 +14,13 @@ function Menu() {
 
   let role = useAppSelector(selectAccountRole);
 
-  useEffect(() => {
-    console.log("THIS IS MENU")
-    console.log(role)
-  }, [])
+  // useEffect(() => {
+  //   console.log("THIS IS MENU")
+  //   console.log(role)
+  // }, [])
 
+  console.log("THIS IS MENU");
+  console.log("ROLE IS ", role);
 
   if ( role == "customer" ) {
     return (

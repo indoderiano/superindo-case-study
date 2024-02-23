@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
-import { useState } from "react";
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import Logout from '../Logout.tsx';
 
 
 function MenuCustomer() {
@@ -7,7 +8,9 @@ function MenuCustomer() {
   return (
     <div>
       <div className="ui secondary pointing menu">
-        <a className="active item">
+        <Link to="/" className='item'>Home</Link>
+        <Link to="/transaction" className='item'>Transactions</Link>
+        {/* <a className="active item">
           Home
         </a>
         <a className="item">
@@ -15,11 +18,11 @@ function MenuCustomer() {
         </a>
         <a className="item">
           Cart
-        </a>
+        </a> */}
         <div className="right menu">
-          <a className="ui item">
-            Logout
-          </a>
+          <div className="ui item">
+            <Logout/>
+          </div>
         </div>
       </div>
       {/* <div className="ui segment">

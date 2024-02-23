@@ -44,6 +44,9 @@ export const accountSlice = createAppSlice({
         state.access_token = user_data.access_token;
       },
     ),
+    reset: create.reducer(state => {
+      return initialState;
+    }),
     increment: create.reducer(state => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
       // doesn't actually mutate the state because it uses the Immer library,
@@ -96,7 +99,7 @@ export const accountSlice = createAppSlice({
 })
 
 // Action creators are generated for each case reducer function.
-export const { updateUserData, decrement, increment, incrementByAmount, incrementAsync } =
+export const { updateUserData, reset, decrement, increment, incrementByAmount, incrementAsync } =
   accountSlice.actions
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.

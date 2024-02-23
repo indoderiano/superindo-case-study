@@ -22,3 +22,8 @@ export function localstorage_get () {
     return undefined;
   }
 }
+
+export function localstorage_clear () {
+  let private_key = process.env.REACT_APP_LOCALSTORAGE_KEY;
+  localStorage.removeItem(private_key);
+}
