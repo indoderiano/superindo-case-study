@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { useAppDispatch } from "../app/hooks.ts"
 import { updateUserData } from "../features/account/accountSlice.ts"
-
+import { localstorage_set } from '../helper/localstorage.ts';
 
 
 
@@ -36,7 +36,8 @@ function Login() {
       console.log("login success");
       console.log(result.data);
       let user_data = result.data;
-      dispatch(updateUserData(user_data))
+      dispatch(updateUserData(user_data));
+      localstorage_set(user_data);
     })
     .catch((error) => {
       console.log(error.response.data.error_description)

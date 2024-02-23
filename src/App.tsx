@@ -4,11 +4,16 @@ import Login from "./pages/login.tsx"
 import Menu from './components/menu/index.tsx'
 import { Account } from "./features/account/Account.tsx";
 import { useEffect, useState } from 'react';
+import { useAppDispatch } from "./app/hooks.ts"
+import { updateUserData } from "./features/account/accountSlice.ts"
+import { UserData } from './features/account/accountSlice.ts';
+import { localstorage_get } from './helper/localstorage.ts';
 
 function App() {
 
   let [isAuthenticating, setIsAuthenticating] = useState(true);
   let [userToken, setUserToken] = useState("");
+  let dispatch = useAppDispatch();
 
   useEffect(() => {
 
@@ -16,19 +21,17 @@ function App() {
 
     console.log("API ENV IS ", process.env.REACT_APP_API);
 
-
-    // let API_URL = process.env.REACT_APP_API;
-
-    // console.log(API_URL);
     
     console.log("cek localstorage");
+    
 
-    let data_localstorage = JSON.parse( localStorage.getItem("superindo") || "''" );
+    let localstorage_data = localstorage_get();
 
-    console.log(data_localstorage);
+    console.log(localstorage_data);
 
-    if ( data_localstorage ) {
-      setUserToken(data_localstorage.username);
+    
+    if ( localstorage_data ) {
+      dispatch(updateUserData(localstorage_data))
     }
 
 
