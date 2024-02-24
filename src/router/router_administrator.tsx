@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route, Outlet, Link } from "react-router-dom";
+import { Routes, Route, Outlet, Link, Navigate } from "react-router-dom";
 import Home from '../pages/home.tsx';
 import Login from '../pages/login.tsx';
 import ManageTransaction from '../pages/manage_transaction.tsx';
@@ -22,6 +22,10 @@ function RouterAdmin() {
               acts like a catch-all for URLs that we don't have explicit
               routes for. */}
         {/* <Route path="*" element={<NoMatch />} /> */}
+        <Route
+          path="*"
+          element={<Navigate to="/" replace />}
+        />
       </Route>
     </Routes>
   )

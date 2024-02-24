@@ -6,6 +6,7 @@ import { selectAccountRole } from '../../features/account/accountSlice.ts';
 
 import MenuAdmin from "./menu_admin.tsx"
 import MenuCustomer from './menu_customer.tsx';
+import MenuGuest from './menu_guest.tsx';
 
 
 
@@ -32,7 +33,7 @@ function Menu() {
     )
   } else {
     return (
-      <></>
+      <MenuGuest/>
     )
   };
 }
