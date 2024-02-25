@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { useState } from "react";
 import axios from 'axios';
 
-import { useAppDispatch } from "../app/hooks.ts"
-import { updateUserData } from "../features/account/accountSlice.ts"
+import { useAppDispatch, useAppSelector } from "../app/hooks.ts"
+import { selectAccessToken, updateUserData } from "../features/account/accountSlice.ts"
 import { localstorage_set } from '../helper/localstorage.ts';
 import { useSearchParams } from 'react-router-dom';
 
@@ -49,6 +49,17 @@ function MasterDataProduct() {
   // let [password, setPassword] = useState("");
 
   // let dispatch = useAppDispatch();
+  // let role = useAppSelector(selectAccountRole);
+
+  let access_token = useAppSelector(selectAccessToken);
+
+  let [isRequestingData, setIsRequestingData] = useState(false);
+  let [isAddingToCart, setIsAddingToCart] = useState(false);
+  let [isProductAdded, setIsProductAdded] = useState(false);
+  let [isRequestError, setIsRequestError] = useState(false);
+  let [isAddingToCartError, setIsAddingToCartError] = useState(false);
+  let [errorMessage, setErrorMessage] = useState("");
+
 
   let [productVariants, setProductVariants] = useState([]);
   let [selectedProductVariant, setSelectedProductVariant] = useState(initialProduct);
@@ -71,10 +82,16 @@ function MasterDataProduct() {
 
   useEffect(() => {
     setInputQty(0);
+    setIsAddingToCartError(false);
+    setErrorMessage("");
   }, [selectedProductVariant])
 
 
   let requestProductsByCategory = () => {
+
+    setIsRequestingData(true);
+    setIsRequestError(false);
+    setErrorMessage("");
 
     let API_URL = process.env.REACT_APP_API;
     console.log("API ENV IS ", API_URL);
@@ -85,14 +102,21 @@ function MasterDataProduct() {
     .then((result) => {
       console.log(result.data);
       setProductVariants(result.data);
+      setIsRequestingData(false)
       // setProductCategories(result.data)
     })
     .catch((error) => {
-      console.log(error.response.data.error_description)
+      // console.log(error.response.data.error_description)
+      setIsRequestError(true);
+      setErrorMessage("Request data failed");
+      setIsRequestingData(false)
     })
   }
 
   let requestAddTransaction = () => {
+    setIsAddingToCart(true);
+    setIsAddingToCartError(false);
+
     let API_URL = process.env.REACT_APP_API;
     console.log("API ENV IS ", API_URL);
 
@@ -103,14 +127,27 @@ function MasterDataProduct() {
       subtotal: selectedProductVariant.price*inputQty,
     };
 
-    axios.post(`${API_URL}/transaction/create`, payload)
+    let config = {
+      headers: {
+        Authorization: `Bearer ${access_token}`
+      }
+    };
+
+    axios.post(`${API_URL}/transaction/create`, payload, config)
     .then((result) => {
-      console.log(result.data);
-      setProductVariants(result.data);
-      // setProductCategories(result.data)
+      console.log(result);
+      console.log('add product to cart succeed');
+      setIsAddingToCart(false);
+      setIsProductAdded(true);
+      setTimeout(()=>{
+        setIsProductAdded(false)
+      }, 2000)
     })
     .catch((error) => {
-      console.log(error.response.data.error_description)
+      // console.log(error.response.data.error_description)
+      setIsAddingToCart(false)
+      setIsAddingToCartError(true);
+      setErrorMessage("adding to cart failed");
     })
   }
 
@@ -149,6 +186,26 @@ function MasterDataProduct() {
       }}
     >
       <h1 className="ui header">Product</h1>
+
+      {
+        isRequestingData?
+        <div className="d-flex justify-content-center w-100">
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        :
+        <></>
+      }
+
+      {
+        isRequestError?
+        <div className="alert alert-danger w-100" role="alert">
+          {errorMessage}
+        </div>
+        :
+        <></>
+      }
 
       <div className="ui cards">
         { renderProductVariants() }
@@ -207,12 +264,41 @@ function MasterDataProduct() {
             <div className="modal-footer">
 
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={requestAddTransaction}
-              >Add to Cart</button>
+
+              {
+                isAddingToCart?
+                <button className="btn btn-primary" type="button" disabled>
+                  <span className="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+                  <span role="status">Loading...</span>
+                </button>
+                :
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={requestAddTransaction}
+                >
+                  Add to Cart
+                </button>
+              }
             </div>
+            {
+              isProductAdded?
+              <div className="modal-footer">
+                <div className="alert alert-success w-100" role="alert">
+                  Product is added to Cart
+                </div>
+              </div>
+              :
+              <></>
+            }
+            {
+              isAddingToCartError?
+              <div className="alert alert-danger w-100" role="alert">
+                {errorMessage}
+              </div>
+              :
+              <></>
+            }
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Logout from '../Logout.tsx';
 
 
 
@@ -25,9 +26,9 @@ function MenuAdmin() {
           Manage Transactions
         </a> */}
         <div className="right menu">
-          <a className="ui item">
-            Logout
-          </a>
+          <div className="ui item">
+            <Logout/>
+          </div>
         </div>
       </div>
       {/* <div className="ui segment">

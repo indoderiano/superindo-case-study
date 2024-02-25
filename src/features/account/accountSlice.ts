@@ -95,6 +95,7 @@ export const accountSlice = createAppSlice({
     selectAccountUsername: account => account.username,
     selectAccountRole: account => account.role,
     selectStatus: account => account.status,
+    selectAccessToken: account => account.access_token,
   },
 })
 
@@ -103,7 +104,7 @@ export const { updateUserData, reset, decrement, increment, incrementByAmount, i
   accountSlice.actions
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.
-export const { selectAccount, selectAccountUsername, selectAccountRole, selectStatus } = accountSlice.selectors
+export const { selectAccount, selectAccountUsername, selectAccountRole, selectStatus, selectAccessToken } = accountSlice.selectors
 
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.
