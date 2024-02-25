@@ -6,6 +6,8 @@ import ManageTransaction from '../pages/manage_transaction.tsx';
 import Transaction from '../pages/transaction.tsx';
 import Cart from '../pages/cart.tsx';
 import Menu from '../components/menu/index.tsx';
+import MasterDataProductCategory from '../pages/master_data_product_category.tsx';
+import MasterDataProduct from '../pages/master_data_product.tsx';
 
 
 function RouterAdmin() {
@@ -13,6 +15,8 @@ function RouterAdmin() {
     <Routes>
       <Route path="/">
         <Route index element={<Home />} />
+        <Route path="product-category" element={<MasterDataProductCategory />} />
+        <Route path="products" element={<MasterDataProduct />} />
         {/* <Route path="transaction" element={<Transaction />} /> */}
         <Route path="manage-transaction" element={<ManageTransaction />} />
         {/* <Route path="login" element={<Login />} /> */}
