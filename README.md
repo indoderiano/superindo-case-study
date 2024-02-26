@@ -37,9 +37,13 @@ in your console
 
 please note that the app has a default user data as "administrator" below
 <br/>
+
+
 username: bruce
 
 password: iambatman
+
+
 <br/>
 use this credential to access the app as administrator
 
