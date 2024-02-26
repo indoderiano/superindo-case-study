@@ -27,8 +27,8 @@ you can use your own key and replace data 'superindo' in above example
 
 in your console
 
-npm install
-npm start
+    npm install
+    npm start
 
 ===========================================================================
 
@@ -36,11 +36,11 @@ npm start
 
 
 please note that the app has a default user data as "administrator" below
-
+<br/>
 username: bruce
 
 password: iambatman
-
+<br/>
 use this credential to access the app as administrator
 
 in the register page, user can **only** create account with role "customer"
