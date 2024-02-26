@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react'
-import { useState } from "react";
+import React from 'react'
 
-import { useAppDispatch, useAppSelector } from "../../app/hooks.ts"
+import { useAppSelector } from "../../app/hooks.ts"
 import { selectAccountRole } from '../../features/account/accountSlice.ts';
 
 import MenuAdmin from "./menu_admin.tsx"
@@ -11,17 +10,7 @@ import MenuGuest from './menu_guest.tsx';
 
 
 function Menu() {
-
-
   let role = useAppSelector(selectAccountRole);
-
-  // useEffect(() => {
-  //   console.log("THIS IS MENU")
-  //   console.log(role)
-  // }, [])
-
-  console.log("THIS IS MENU");
-  console.log("ROLE IS ", role);
 
   if ( role == "customer" ) {
     return (

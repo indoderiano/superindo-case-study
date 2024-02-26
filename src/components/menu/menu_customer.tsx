@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import Logout from '../Logout.tsx';
 
@@ -10,16 +10,6 @@ function MenuCustomer() {
       <div className="ui secondary pointing menu">
         <Link to="/" className='item'>Home</Link>
         <Link to="/products" className='item'>Products</Link>
-        {/* <Link to="/transaction" className='item'>Transactions</Link> */}
-        {/* <a className="active item">
-          Home
-        </a>
-        <a className="item">
-          Transaction
-        </a>
-        <a className="item">
-          Cart
-        </a> */}
         <div className="right menu">
           <Link to="/cart" className='item'>Cart</Link>
           <div className="ui item">
@@ -27,9 +17,6 @@ function MenuCustomer() {
           </div>
         </div>
       </div>
-      {/* <div className="ui segment">
-        <p></p>
-      </div> */}
     </div>
   );
 }

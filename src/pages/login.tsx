@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useState } from "react";
-import axios from 'axios';
 
 import { useAppDispatch } from "../app/hooks.ts"
-import { updateUserData, UserData } from "../features/account/accountSlice.ts"
+import { updateUserData } from "../features/account/accountSlice.ts"
 import { localstorage_set } from '../helper/localstorage.ts';
 import { login } from '../fetch/auth.tsx' 
 
@@ -17,16 +16,8 @@ function Login() {
 
   let dispatch = useAppDispatch();
 
-  useEffect(() => {
-    console.log("THIS IS LOGIN PAGE");
-  })
-
 
   let requestLogin = async () => {
-    console.log("LOGIN...")
-    // console.log(username)
-    // console.log(password)
-
 
     let fetch = login();
 
@@ -36,10 +27,7 @@ function Login() {
       }
     })
     .then((result) => {
-      console.log("login success");
-      console.log(result);
       let user_data = result.data;
-      console.log(user_data)
       dispatch(updateUserData(user_data));
       localstorage_set(user_data);
     })
@@ -97,7 +85,6 @@ function Login() {
               className="ui button mt-5"
               // type="submit"
               onClick={requestLogin}
-              // onClick={() => dispatch(updateRole("customer"))}
             >Submit</button>
           </div>
       </div>
