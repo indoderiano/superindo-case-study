@@ -39,6 +39,7 @@ npm start
 please note that the app has a default user data as "administrator" below
 
 username: bruce
+
 password: iambatman
 
 use this credential to access the app as administrator
