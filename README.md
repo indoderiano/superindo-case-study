@@ -10,10 +10,9 @@
 
 in root folder, create file .env with data as formatted below
 
-<br/>
-REACT_APP_API=http://localhost:4000
-REACT_APP_LOCALSTORAGE_KEY=superindo
-<br/>
+
+  REACT_APP_API=http://localhost:4000
+  REACT_APP_LOCALSTORAGE_KEY=superindo
 
 we will use 
 http://localhost:4000
