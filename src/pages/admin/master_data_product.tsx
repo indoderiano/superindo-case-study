@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import { useState } from "react";
 import axios from 'axios';
 
-import { useAppDispatch, useAppSelector } from "../app/hooks.ts"
-import { selectAccessToken, updateUserData } from "../features/account/accountSlice.ts"
-import { localstorage_set } from '../helper/localstorage.ts';
+import { useAppDispatch, useAppSelector } from "../../app/hooks.ts"
+import { selectAccessToken, updateUserData } from "../../features/account/accountSlice.ts"
+import { localstorage_set } from '../../helper/localstorage.ts';
 import { useSearchParams } from 'react-router-dom';
 
 interface Product {
@@ -208,6 +208,12 @@ function MasterDataProduct() {
       }
 
       <div className="ui cards">
+        {
+          productVariants.length == 0 ?
+          <>No Products to Display</>
+          :
+          <></>
+        }
         { renderProductVariants() }
       </div>
 

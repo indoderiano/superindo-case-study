@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import { useState } from "react";
 import axios from 'axios';
 
-import { useAppDispatch } from "../app/hooks.ts"
-import { updateUserData } from "../features/account/accountSlice.ts"
-import { localstorage_set } from '../helper/localstorage.ts';
+import { useAppDispatch } from "../../app/hooks.ts"
+import { updateUserData } from "../../features/account/accountSlice.ts"
+import { localstorage_set } from '../../helper/localstorage.ts';
 import { Link, redirect, useNavigate } from 'react-router-dom';
 
 interface ProductCategory {
@@ -12,9 +12,9 @@ interface ProductCategory {
   name: string
   active: boolean
   created_user: string
-  create_date: string
-  update_user: string
   created_date: string
+  updated_user: string
+  updated_date: string
 }
 
 

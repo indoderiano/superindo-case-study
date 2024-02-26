@@ -2,12 +2,12 @@ import React from 'react'
 import { Routes, Route, Outlet, Link, Navigate } from "react-router-dom";
 import Home from '../pages/home.tsx';
 import Login from '../pages/login.tsx';
-import ManageTransaction from '../pages/manage_transaction.tsx';
+import ManageTransaction from '../pages/admin/manage_transaction.tsx';
 import Transaction from '../pages/transaction.tsx';
 import Cart from '../pages/cart.tsx';
 import Menu from '../components/menu/index.tsx';
-import MasterDataProductCategory from '../pages/master_data_product_category.tsx';
-import MasterDataProduct from '../pages/master_data_product.tsx';
+import MasterDataProductCategory from '../pages/admin/master_data_product_category.tsx';
+import MasterDataProduct from '../pages/admin/master_data_product.tsx';
 
 
 function RouterAdmin() {
