@@ -2,9 +2,9 @@ import React from 'react'
 import { Routes, Route, Outlet, Link, Navigate } from "react-router-dom";
 import Home from '../pages/home.tsx';
 import Login from '../pages/login.tsx';
-import ManageTransaction from '../pages/manage_transaction.tsx';
 import Transaction from '../pages/transaction.tsx';
 import Cart from '../pages/cart.tsx';
+import PageProduct from '../pages/customer/product.tsx'
 import Menu from '../components/menu/index.tsx';
 import { useAppSelector } from '../app/hooks.ts';
 import { selectAccountRole } from '../features/account/accountSlice.ts';
@@ -27,6 +27,7 @@ function RouterCustomer() {
     <Routes>
       <Route path="/">
         <Route index element={<Home />} />
+        <Route path="products" element={<PageProduct />} />
         <Route path="transaction" element={<Transaction />} />
         {/* <Route path="manage-transaction" element={<ManageTransaction />} /> */}
         {/* <Route path="login" element={<Login />} /> */}

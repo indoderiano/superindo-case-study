@@ -1,33 +1,13 @@
 import React, { useEffect } from 'react'
 import { useState } from "react";
-import axios from 'axios';
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts"
 import { selectAccessToken, updateUserData } from "../../features/account/accountSlice.ts"
 import { localstorage_set } from '../../helper/localstorage.ts';
 import { Link, redirect, useNavigate } from 'react-router-dom';
+import { getAllTransactions, Transaction, initialTransaction } from '../../fetch/transaction.tsx';
+import { getTransactionDetailsByTransactionId } from '../../fetch/transaction_details.tsx';
 
-interface Transaction {
-  id: number
-  transaction_no: string
-  total_amount: number
-  active: boolean
-  created_user: string
-  created_date: string
-  updated_user: string
-  updated_date: string
-}
-
-let initialTransaction: Transaction = {
-  id: 0,
-  transaction_no: "",
-  total_amount: 0,
-  active: false,
-  created_user: "",
-  created_date: "",
-  updated_user: "",
-  updated_date: "",
-} 
 
 interface TransactionData {
   id: number
@@ -104,7 +84,10 @@ function ManageTransaction() {
       }
     };
     
-    axios.get(`${API_URL}/transaction/data`, config)
+    let fetch = getAllTransactions(access_token);
+
+    // axios.get(`${API_URL}/transaction/data`, config)
+    fetch("/")
     .then((result) => {
       console.log(result.data);
       setTransactions(result.data);
@@ -131,8 +114,11 @@ function ManageTransaction() {
 
       let API_URL = process.env.REACT_APP_API;
       console.log("API ENV IS ", API_URL);
+
+      let fetch = getTransactionDetailsByTransactionId(access_token, transaction_id);
       
-      axios.get(`${API_URL}/transaction-detail/transaction-id/${transaction_id}`)
+      // axios.get(`${API_URL}/transaction-detail/transaction-id/${transaction_id}`)
+      fetch("/")
       .then((result) => {
         console.log(result.data);
         setTransactionDetails(result.data)

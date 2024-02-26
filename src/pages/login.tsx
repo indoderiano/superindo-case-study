@@ -3,8 +3,9 @@ import { useState } from "react";
 import axios from 'axios';
 
 import { useAppDispatch } from "../app/hooks.ts"
-import { updateUserData } from "../features/account/accountSlice.ts"
+import { updateUserData, UserData } from "../features/account/accountSlice.ts"
 import { localstorage_set } from '../helper/localstorage.ts';
+import { login } from '../fetch/auth.tsx' 
 
 
 
@@ -21,31 +22,64 @@ function Login() {
   })
 
 
-  let requestLogin = () => {
+  let requestLogin = async () => {
     console.log("LOGIN...")
-    console.log(username)
-    console.log(password)
+    // console.log(username)
+    // console.log(password)
 
-    let API_URL = process.env.REACT_APP_API;
-    console.log("API ENV IS ", API_URL);
 
-    let payload = {
-      username,
-      password
-    };
-    
-    axios.post(`${API_URL}/users/login`, payload)
-    // axios.get(`${API_URL}/users/users`)
+    let fetch = login();
+
+    fetch({
+      data: {
+        username, password
+      }
+    })
     .then((result) => {
       console.log("login success");
-      console.log(result.data);
+      console.log(result);
       let user_data = result.data;
+      console.log(user_data)
       dispatch(updateUserData(user_data));
       localstorage_set(user_data);
     })
     .catch((error) => {
-      console.log(error.response.data.error_description)
+      console.log(error)
     })
+
+
+    // try {
+    //   let result = await login(username, password);
+
+    //   console.log("login success");
+    //   console.log(result.data);
+    //   let user_data = result.data;
+    //   console.log(user_data)
+    //   dispatch(updateUserData(user_data));
+    //   localstorage_set(user_data);
+    // } catch (e) {
+    //   console.log(e)
+    // }
+
+
+    // let payload = {
+    //   username,
+    //   password
+    // };
+    
+    // axios.post(`${API_URL}/users/login`, payload)
+    // // axios.get(`${API_URL}/users/users`)
+    // .then((result) => {
+    //   console.log("login success");
+    //   console.log(result.data);
+    //   let user_data = result.data;
+    //   dispatch(updateUserData(user_data));
+    //   localstorage_set(user_data);
+    // })
+    // .catch((error) => {
+    //   console.log(error.response.data.error_description)
+    // })
+
   }
 
 

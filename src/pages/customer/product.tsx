@@ -6,12 +6,44 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks.ts"
 import { selectAccessToken, updateUserData } from "../../features/account/accountSlice.ts"
 import { localstorage_set } from '../../helper/localstorage.ts';
 import { useSearchParams } from 'react-router-dom';
-import { getProducts, Product, initialProduct } from '../../fetch/product.tsx';
-import { createTransaction } from '../../fetch/transaction.tsx';
+
+interface Product {
+  id: number
+  product_id: number
+  product_category_id: string
+  code: string
+  plu: string
+  name: string
+  product_name: string
+  active: boolean
+  qty: number
+  price: number
+  created_user: string
+  created_date: string
+  updated_user: string
+  updated_date: string
+}
+
+let initialProduct: Product = {
+  id: 0,
+  product_id: 0,
+  product_category_id: "",
+  code: "",
+  plu: "",
+  name: "",
+  product_name: "",
+  active: false,
+  qty: 0,
+  price: 0,
+  created_user: "",
+  created_date: "",
+  updated_user: "",
+  updated_date: "",
+}
 
 
 
-function MasterDataProduct() {
+function PageProduct() {
 
   // let [username, setUsername] = useState("");
   // let [password, setPassword] = useState("");
@@ -61,14 +93,14 @@ function MasterDataProduct() {
     setIsRequestError(false);
     setErrorMessage("");
 
+    let API_URL = process.env.REACT_APP_API;
+    console.log("API ENV IS ", API_URL);
 
-    let fetch = getProducts(category_id);
-
+    // http://localhost:4000/product/data-category/2
     
-    // axios.get(`${API_URL}/product/data-category/${category_id}`)
-    fetch("/")
+    axios.get(`${API_URL}/product/data-category/${category_id}`)
     .then((result) => {
-      // console.log(result.data);
+      console.log(result.data);
       setProductVariants(result.data);
       setIsRequestingData(false)
       // setProductCategories(result.data)
@@ -85,6 +117,8 @@ function MasterDataProduct() {
     setIsAddingToCart(true);
     setIsAddingToCartError(false);
 
+    let API_URL = process.env.REACT_APP_API;
+    console.log("API ENV IS ", API_URL);
 
     let payload = {
       product_variant_id: selectedProductVariant.id,
@@ -93,12 +127,13 @@ function MasterDataProduct() {
       subtotal: selectedProductVariant.price*inputQty,
     };
 
-    let fetch = createTransaction(access_token)
+    let config = {
+      headers: {
+        Authorization: `Bearer ${access_token}`
+      }
+    };
 
-    // axios.post(`${API_URL}/transaction/create`, payload, config)
-    fetch({
-      data: payload
-    })
+    axios.post(`${API_URL}/transaction/create`, payload, config)
     .then((result) => {
       console.log(result);
       console.log('add product to cart succeed');
@@ -279,4 +314,4 @@ function MasterDataProduct() {
   );
 }
 
-export default MasterDataProduct;
+export default PageProduct;

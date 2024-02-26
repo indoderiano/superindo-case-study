@@ -1,32 +1,25 @@
 import React, { useEffect } from 'react'
 import { useState } from "react";
-import axios from 'axios';
 
-import { useAppDispatch } from "../../app/hooks.ts"
-import { updateUserData } from "../../features/account/accountSlice.ts"
-import { localstorage_set } from '../../helper/localstorage.ts';
-import { Link, redirect, useNavigate } from 'react-router-dom';
-
-interface ProductCategory {
-  id: number
-  name: string
-  active: boolean
-  created_user: string
-  created_date: string
-  updated_user: string
-  updated_date: string
-}
+import { useAppSelector } from "../../app/hooks.ts"
+import { selectAccessToken } from "../../features/account/accountSlice.ts"
+import { useNavigate } from 'react-router-dom';
+import { getAllCategories, ProductCategory } from '../../fetch/category.tsx';
 
 
 
 function MasterDataProductCategory() {
 
-  // let [username, setUsername] = useState("");
-  // let [password, setPassword] = useState("");
-
-  // let dispatch = useAppDispatch();
-
+  // DATA
+  let access_token = useAppSelector(selectAccessToken);
   let [productCategories, setProductCategories] = useState([]);
+
+  // RENDER STATE
+  let [isRequestingCategories, setIsRequestingCategories] = useState(false);
+  let [isRequestingCategoriesError, setIsRequestingCategoriesError] = useState(false);
+  let [errorMessage, setErrorMessage] = useState("");
+
+  // SERVICE
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -37,17 +30,23 @@ function MasterDataProductCategory() {
 
   let requestProductCategories = () => {
 
-    let API_URL = process.env.REACT_APP_API;
-    console.log("API ENV IS ", API_URL);
+    setIsRequestingCategories(true);
+    setIsRequestingCategoriesError(false);
+    setErrorMessage("");
 
+
+    let fetch = getAllCategories(access_token);
     
-    axios.get(`${API_URL}/product-category/data`)
+    fetch("/")
     .then((result) => {
       console.log(result.data);
+      setIsRequestingCategories(false);
       setProductCategories(result.data)
     })
     .catch((error) => {
-      console.log(error.response.data.error_description)
+      setIsRequestingCategories(false);
+      setErrorMessage("Get Categories Failed");
+      // console.log(error.response.data.error_description)
     })
   }
 
@@ -96,6 +95,26 @@ function MasterDataProductCategory() {
       }}
     >
       <h1 className="ui header">Product Categories</h1>
+
+      {
+        isRequestingCategories?
+        <div className="d-flex justify-content-center w-100">
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        :
+        <></>
+      }
+
+      {
+        isRequestingCategoriesError?
+        <div className="alert alert-danger w-100" role="alert">
+          {errorMessage}
+        </div>
+        :
+        <></>
+      }
 
       <div className="ui link cards">
         { renderProductCategories() }
