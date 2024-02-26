@@ -23,7 +23,6 @@ function MasterDataProductCategory() {
   let navigate = useNavigate();
 
   useEffect(() => {
-    console.log("THIS IS PRODUCT CATEGORY PAGE");
     requestProductCategories();
   },[])
 
@@ -46,7 +45,6 @@ function MasterDataProductCategory() {
     .catch((error) => {
       setIsRequestingCategories(false);
       setErrorMessage("Get Categories Failed");
-      // console.log(error.response.data.error_description)
     })
   }
 
@@ -57,31 +55,19 @@ function MasterDataProductCategory() {
         <div className="card" key={category.id}
           onClick={()=>{
             navigate(`/products?category=${category.id}`);
-            // redirect(`/products?category=${category.id}`);
           }}
         >
-          {/* <NavLink to={`/products?category=${category.id}`}> */}
             <div className="content">
               <div className="header">{category.name}</div>
               <div className="meta">
                 <a>{category.created_user}</a>
               </div>
-              {/* <div className="description">
-                Matthew is an interior designer living in New York.
-              </div> */}
             </div>
             <div className="extra content">
               <span className="right floated">
                 Created in {category.created_date}
               </span>
-              {/* <span>
-                <i className="user icon"></i>
-                75 Friends
-              </span> */}
             </div>
-          {/* </NavLink> */}
-          {/* <Link to={`/products?category=${category.id}`} className='item'> */}
-          {/* </Link> */}
         </div>
       )
     })

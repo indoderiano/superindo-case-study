@@ -1,44 +1,22 @@
 import React from 'react'
-import { Routes, Route, Outlet, Link, Navigate } from "react-router-dom";
-import Home from '../pages/home.tsx';
+import { Routes, Route, Navigate } from "react-router-dom";
 import HomeCustomer from '../pages/customer/home_customer.tsx';
-import Login from '../pages/login.tsx';
-import Transaction from '../pages/transaction.tsx';
-// import Cart from '../pages/cart.tsx';
 import Cart from '../pages/customer/cart.tsx';
 import PageProduct from '../pages/customer/product.tsx'
-import Menu from '../components/menu/index.tsx';
-import { useAppSelector } from '../app/hooks.ts';
-import { selectAccountRole } from '../features/account/accountSlice.ts';
+// import { useAppSelector } from '../app/hooks.ts';
+// import { selectAccountRole } from '../features/account/accountSlice.ts';
 
 
 function RouterCustomer() {
-  let role = useAppSelector(selectAccountRole);
-  let isRoleAccepted = role == "customer" ? true : false;
-
-
-  console.log("ROUTER CUSTOMER");
-  console.log("role is ", role);
-
-  // if ( !isRoleAccepted ) {
-  //   console.log("REDIRECTING TO HOME")
-  //   redirect("/")
-  // }
+  // let role = useAppSelector(selectAccountRole);
+  // let isRoleAccepted = role == "customer" ? true : false;
 
   return (
     <Routes>
       <Route path="/">
         <Route index element={<HomeCustomer />} />
         <Route path="products" element={<PageProduct />} />
-        {/* <Route path="transaction" element={<Transaction />} /> */}
-        {/* <Route path="manage-transaction" element={<ManageTransaction />} /> */}
-        {/* <Route path="login" element={<Login />} /> */}
         <Route path="cart" element={<Cart />} />
-
-        {/* Using path="*"" means "match anything", so this route
-              acts like a catch-all for URLs that we don't have explicit
-              routes for. */}
-        {/* <Route path="*" element={<Home />} /> */}
         <Route
           path="*"
           element={<Navigate to="/" replace />}
@@ -46,7 +24,6 @@ function RouterCustomer() {
       </Route>
     </Routes>
   )
-
 
 }
 

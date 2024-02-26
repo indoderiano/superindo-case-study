@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react'
 import { useState } from "react";
 
-import { useAppDispatch, useAppSelector } from "../../app/hooks.ts"
-import { selectAccessToken, updateUserData } from "../../features/account/accountSlice.ts"
-import { localstorage_set } from '../../helper/localstorage.ts';
-import { Link, redirect, useNavigate } from 'react-router-dom';
+import { useAppSelector } from "../../app/hooks.ts"
+import { selectAccessToken } from "../../features/account/accountSlice.ts"
 import { getAllTransactions, Transaction, initialTransaction } from '../../fetch/transaction.tsx';
 import { getTransactionDetailsByTransactionId } from '../../fetch/transaction_details.tsx';
 
@@ -25,22 +23,6 @@ interface TransactionData {
   product_variant_name: string
 }
 
-// let initialTransactionData:TransactionData = {
-//   id: 0,
-//   transaction_id: 0,
-//   product_variant_id: 0,
-//   price: 0,
-//   qty: 0,
-//   subtotal: 0,
-//   active: false,
-//   created_user: "",
-//   created_date: "",
-//   updated_user: "",
-//   updated_date: "",
-
-//   product_variant_name: "",
-// } 
-
 
 function ManageTransaction() {
 
@@ -49,7 +31,6 @@ function ManageTransaction() {
   let [isRequestingTransactionsError, setIsRequestingTransactionsError] = useState(false);
   let [isRequestingTransactionDetails, setIsRequestingTransactionDetails] = useState(false);
   let [isRequestingTransactionDetailsError, setIsRequestingTransactionDetailsError] = useState(false);
-
   let [errorMessage, setErrorMessage] = useState("");
 
 
@@ -61,7 +42,6 @@ function ManageTransaction() {
   
 
   useEffect(() => {
-    console.log("THIS IS Manage transaction page");
     requestTransactions();
   },[])
 
@@ -75,18 +55,9 @@ function ManageTransaction() {
     setIsRequestingTransactions(true);
     setIsRequestingTransactionsError(false);
     setErrorMessage("");
-    let API_URL = process.env.REACT_APP_API;
-    console.log("API ENV IS ", API_URL);
-
-    let config = {
-      headers: {
-        Authorization: `Bearer ${access_token}`
-      }
-    };
     
     let fetch = getAllTransactions(access_token);
 
-    // axios.get(`${API_URL}/transaction/data`, config)
     fetch("/")
     .then((result) => {
       console.log(result.data);
@@ -94,7 +65,6 @@ function ManageTransaction() {
       setIsRequestingTransactions(false);
     })
     .catch((error) => {
-      // console.log(error.response.data.error_description)
       setErrorMessage("failed to get transaction data")
       setIsRequestingTransactions(false);
       setIsRequestingTransactionsError(true);
@@ -110,14 +80,8 @@ function ManageTransaction() {
 
     if ( transaction_id > 0 ) {
 
-      console.log('requesting transaction details');
-
-      let API_URL = process.env.REACT_APP_API;
-      console.log("API ENV IS ", API_URL);
-
       let fetch = getTransactionDetailsByTransactionId(access_token, transaction_id);
       
-      // axios.get(`${API_URL}/transaction-detail/transaction-id/${transaction_id}`)
       fetch("/")
       .then((result) => {
         console.log(result.data);
@@ -128,7 +92,6 @@ function ManageTransaction() {
         setIsRequestingTransactionDetails(false);
         setIsRequestingTransactionDetailsError(true);
         setErrorMessage("failed to get transaction details");
-        // console.log(error.response.data.error_description)
       })
     }
 
@@ -173,7 +136,6 @@ function ManageTransaction() {
           <div className="content">
             <div className="header">{transaction_detail.product_variant_name}</div>
             <div className="meta">
-              {/* <span className="category">Animals</span> */}
             </div>
             <div className="description">
 

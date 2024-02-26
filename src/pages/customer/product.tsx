@@ -2,10 +2,10 @@ import React, { useEffect } from 'react'
 import { useState } from "react";
 import axios from 'axios';
 
-import { useAppDispatch, useAppSelector } from "../../app/hooks.ts"
-import { selectAccessToken, updateUserData } from "../../features/account/accountSlice.ts"
-import { localstorage_set } from '../../helper/localstorage.ts';
-import { useSearchParams } from 'react-router-dom';
+import { useAppSelector } from "../../app/hooks.ts"
+import { selectAccessToken } from "../../features/account/accountSlice.ts"
+import { getProducts } from '../../fetch/product.tsx';
+import { createTransaction } from '../../fetch/transaction.tsx';
 
 interface Product {
   id: number
@@ -45,40 +45,24 @@ let initialProduct: Product = {
 
 function PageProduct() {
 
-  // let [username, setUsername] = useState("");
-  // let [password, setPassword] = useState("");
-
-  // let dispatch = useAppDispatch();
-  // let role = useAppSelector(selectAccountRole);
-
-  let access_token = useAppSelector(selectAccessToken);
-
+  // RENDER STATE
   let [isRequestingData, setIsRequestingData] = useState(false);
   let [isAddingToCart, setIsAddingToCart] = useState(false);
   let [isProductAdded, setIsProductAdded] = useState(false);
   let [isRequestError, setIsRequestError] = useState(false);
   let [isAddingToCartError, setIsAddingToCartError] = useState(false);
   let [errorMessage, setErrorMessage] = useState("");
-
-
+  
+  // DATA
+  let access_token = useAppSelector(selectAccessToken);
   let [productVariants, setProductVariants] = useState([]);
   let [selectedProductVariant, setSelectedProductVariant] = useState(initialProduct);
   let [inputQty, setInputQty] = useState(0);
 
-  const [searchParams] = useSearchParams();
-  const category_id = searchParams.get('category');
 
   useEffect(() => {
-    console.log("THIS IS PRODUCT PAGE");
-
-    console.log("category id = ", category_id);
-
-    requestProductsByCategory();
+    requestProducts();
   },[])
-
-  useEffect(() => {
-    requestProductsByCategory();
-  }, [category_id])
 
   useEffect(() => {
     setInputQty(0);
@@ -87,26 +71,21 @@ function PageProduct() {
   }, [selectedProductVariant])
 
 
-  let requestProductsByCategory = () => {
+  let requestProducts = () => {
 
     setIsRequestingData(true);
     setIsRequestError(false);
     setErrorMessage("");
 
-    let API_URL = process.env.REACT_APP_API;
-    console.log("API ENV IS ", API_URL);
 
-    // http://localhost:4000/product/data-category/2
+    let fetch = getProducts(null);
     
-    axios.get(`${API_URL}/product/data-category/${category_id}`)
+    fetch("/")
     .then((result) => {
-      console.log(result.data);
       setProductVariants(result.data);
       setIsRequestingData(false)
-      // setProductCategories(result.data)
     })
     .catch((error) => {
-      // console.log(error.response.data.error_description)
       setIsRequestError(true);
       setErrorMessage("Request data failed");
       setIsRequestingData(false)
@@ -117,9 +96,6 @@ function PageProduct() {
     setIsAddingToCart(true);
     setIsAddingToCartError(false);
 
-    let API_URL = process.env.REACT_APP_API;
-    console.log("API ENV IS ", API_URL);
-
     let payload = {
       product_variant_id: selectedProductVariant.id,
       price: selectedProductVariant.price,
@@ -127,16 +103,12 @@ function PageProduct() {
       subtotal: selectedProductVariant.price*inputQty,
     };
 
-    let config = {
-      headers: {
-        Authorization: `Bearer ${access_token}`
-      }
-    };
+    let fetch = createTransaction(access_token)
 
-    axios.post(`${API_URL}/transaction/create`, payload, config)
+    fetch({
+      data: payload
+    })
     .then((result) => {
-      console.log(result);
-      console.log('add product to cart succeed');
       setIsAddingToCart(false);
       setIsProductAdded(true);
       setTimeout(()=>{
@@ -144,10 +116,9 @@ function PageProduct() {
       }, 2000)
     })
     .catch((error) => {
-      // console.log(error.response.data.error_description)
       setIsAddingToCart(false)
       setIsAddingToCartError(true);
-      setErrorMessage("adding to cart failed");
+      setErrorMessage(error.response.data.error_description);
     })
   }
 

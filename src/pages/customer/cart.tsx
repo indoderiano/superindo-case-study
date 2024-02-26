@@ -1,12 +1,9 @@
 import React, { useEffect } from 'react'
 import { useState } from "react";
 
-import { useAppDispatch, useAppSelector } from "../../app/hooks.ts"
-import { selectAccessToken, updateUserData } from "../../features/account/accountSlice.ts"
-import { localstorage_set } from '../../helper/localstorage.ts';
-import { Link, redirect, useNavigate } from 'react-router-dom';
-import { getAllTransactions, Transaction, initialTransaction, getCartTransaction, checkout } from '../../fetch/transaction.tsx';
-import { getTransactionDetailsByTransactionId } from '../../fetch/transaction_details.tsx';
+import { useAppSelector } from "../../app/hooks.ts"
+import { selectAccessToken } from "../../features/account/accountSlice.ts"
+import { getCartTransaction, checkout } from '../../fetch/transaction.tsx';
 
 
 interface TransactionCartData {
@@ -26,22 +23,6 @@ interface TransactionCartData {
   total_amount: number
 }
 
-// let initialTransactionCartData:TransactionCartData = {
-//   id: 0,
-//   transaction_id: 0,
-//   product_variant_id: 0,
-//   price: 0,
-//   qty: 0,
-//   subtotal: 0,
-//   active: false,
-//   created_user: "",
-//   created_date: "",
-//   updated_user: "",
-//   updated_date: "",
-
-//   product_variant_name: "",
-// } 
-
 
 function Cart() {
 
@@ -51,7 +32,6 @@ function Cart() {
   let [isPaying, setIsPaying] = useState(false);
   let [isPayingError, setIsPayingError] = useState(false);
   let [isPaid, setIsPaid] = useState(false);
-
   let [errorMessage, setErrorMessage] = useState("");
 
 
@@ -60,12 +40,9 @@ function Cart() {
   let [totalAmount,setTotalAmount] = useState(0);
   let [transactionId, setTransactionId] = useState(0);
   let [transactionCart, setTransactionCart] = useState([]);
-  let [selectedTransaction, setSelectedTransaction] = useState<Transaction>(initialTransaction);
-  let [transactionDetails, setTransactionDetails] = useState<Array<TransactionCartData>>([]);
   
 
   useEffect(() => {
-    console.log("THIS IS cart page");
     requestCartTransaction();
   },[])
 
@@ -78,10 +55,8 @@ function Cart() {
     
     let fetch = getCartTransaction(access_token);
 
-    // axios.get(`${API_URL}/transaction/data`, config)
     fetch("/")
     .then((result) => {
-      console.log(result.data);
       setTransactionCart(result.data);
       setIsRequestingCartTransaction(false);
       if ( result.data.length > 0 ) {
@@ -90,7 +65,6 @@ function Cart() {
       }
     })
     .catch((error) => {
-      // console.log(error.response.data.error_description)
       setErrorMessage("failed to get transaction data")
       setIsRequestingCartTransaction(false);
       setIsRequestingCartTransactionError(true);
@@ -102,21 +76,17 @@ function Cart() {
     setIsPaying(true);
     setIsPayingError(false);
     setErrorMessage("");
-    // setTransactionDetails([]);
 
     setTimeout(() => {
       let fetch = checkout(access_token);
 
-      // axios.get(`${API_URL}/transaction/data`, config)
       fetch(`/${transactionId}`)
       .then((result) => {
-        console.log(result.data);
         setIsPaying(false);
         setIsPaid(true);
         requestCartTransaction();
       })
       .catch((error) => {
-        // console.log(error.response.data.error_description)
         setIsPaying(false);
         setErrorMessage("payment failed")
         setIsPayingError(true)
@@ -136,7 +106,6 @@ function Cart() {
           <div className="content">
             <div className="header">{transaction_data.product_variant_name}</div>
             <div className="meta">
-              {/* <span className="category">Animals</span> */}
             </div>
             <div className="description">
 
@@ -216,7 +185,6 @@ function Cart() {
             flexDirection: "column",
             padding: "1rem",
             minHeight: "200px"
-            // height: ""
           }}
         >
           {/* <img
@@ -325,8 +293,6 @@ function Cart() {
       }
 
 
-
-
       {/* MODAL TRANSACTION DETAILS */}
       <div className="modal fade" id="modaltransaction"  aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered">
@@ -336,18 +302,10 @@ function Cart() {
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
-              <div
-                style={{
-                  // minHeight: "200px"
-                }}
-              >
+              <div>
                 { renderCheckout() }
               </div>
 
-            </div>
-
-            <div className="modal-footer">
-              {/* By User {selectedTransaction.updated_user} */}
             </div>
 
             <div className="modal-footer">

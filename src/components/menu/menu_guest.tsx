@@ -9,6 +9,7 @@ function MenuGuest() {
       <div className="ui secondary pointing menu">
         <Link to="/" className='item'>Home</Link>
         <div className="right menu">
+          <Link to="/register" className='item'>Register</Link>
           <Link to="/login" className='item'>Login</Link>
         </div>
       </div>

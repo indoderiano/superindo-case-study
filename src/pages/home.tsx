@@ -32,7 +32,7 @@ function Home() {
         <img
           style={{
             width: "70%",
-            maxWidth: "600px",
+            maxWidth: "350px",
           }}
           src='https://cdnl.iconscout.com/lottie/premium/thumb/ecommerce-5681338-4730286.gif'/>
 

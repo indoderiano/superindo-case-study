@@ -22,8 +22,8 @@ export let initialTransaction: Transaction = {
   updated_date: "",
 } 
 
-export function createTransaction (access_token) {
 
+export function createTransaction (access_token) {
   let fetch = axios.create({
     method: "POST",
     baseURL: `${process.env.REACT_APP_API}/transaction/create`,
@@ -33,13 +33,9 @@ export function createTransaction (access_token) {
   })
 
   return fetch
-
 }
 
 export function getAllTransactions (access_token) {
-  // axios.get(`${API_URL}/transaction-detail/transaction-id/${transaction_id}`)
-  // axios.get(`${API_URL}/transaction/data`, config)
-
   let fetch = axios.create({
     method: "GET",
     baseURL: `${process.env.REACT_APP_API}/transaction/data`,
@@ -51,11 +47,7 @@ export function getAllTransactions (access_token) {
   return fetch
 }
 
-
 export function getCartTransaction (access_token) {
-  // axios.get(`${API_URL}/transaction-detail/transaction-id/${transaction_id}`)
-  // axios.get(`${API_URL}/transaction/data`, config)
-
   let fetch = axios.create({
     method: "GET",
     baseURL: `${process.env.REACT_APP_API}/transaction/cart`,
@@ -67,9 +59,7 @@ export function getCartTransaction (access_token) {
   return fetch
 }
 
-
 export function checkout (access_token) {
-
   let fetch = axios.create({
     method: "POST",
     baseURL: `${process.env.REACT_APP_API}/transaction/checkout`,

@@ -1,50 +1,43 @@
 import React, { useEffect } from 'react'
 import { useState } from "react";
-import axios from 'axios';
-
-import { useAppDispatch } from "../app/hooks.ts"
-import { updateUserData, UserData } from "../features/account/accountSlice.ts"
-import { localstorage_set } from '../helper/localstorage.ts';
-import { login } from '../fetch/auth.tsx' 
+import { register } from '../fetch/auth.tsx' 
 
 
 
 
-function Login() {
+function Register() {
 
+  // DATA
   let [username, setUsername] = useState("");
+  let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
 
-  let dispatch = useAppDispatch();
-
-  useEffect(() => {
-    console.log("THIS IS LOGIN PAGE");
-  })
-
-
-  let requestLogin = async () => {
-    console.log("LOGIN...")
-    // console.log(username)
-    // console.log(password)
+  // RENDER STATE
+  let [isRegistering, setIsRegistering] = useState(false);
+  let [isRegisterError, setIsRegisterError] = useState(false);
+  let [isRegisterSucceed, setIsRegisterSucceed] = useState(false);
+  let [errorMessage, setErrorMessage] = useState("")
 
 
-    let fetch = login();
+  let requestRegister = async () => {
+
+    setIsRegistering(true);
+    setIsRegisterError(false);
+    setErrorMessage("");
+
+    let fetch = register();
 
     fetch({
       data: {
-        username, password
+        username, email, password
       }
     })
     .then((result) => {
-      console.log("login success");
-      console.log(result);
-      let user_data = result.data;
-      console.log(user_data)
-      dispatch(updateUserData(user_data));
-      localstorage_set(user_data);
+      setIsRegistering(false);
+      setIsRegisterSucceed(true);
     })
     .catch((error) => {
-      console.log(error)
+      setIsRegisterError(true);
     })
 
   }
@@ -77,6 +70,17 @@ function Login() {
               />
             </div>
             <div className="field">
+              <label>Email</label>
+              <input
+                type="text"
+                name="email"
+                placeholder="Email"
+                onChange={(e)=>{
+                  setEmail(e.target.value)
+                }}
+              />
+            </div>
+            <div className="field">
               <label>Password</label>
               <input
                 type="password"
@@ -88,7 +92,7 @@ function Login() {
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     e.preventDefault();
-                    requestLogin();
+                    requestRegister();
                   }
                 }}
               />
@@ -96,13 +100,29 @@ function Login() {
             <button
               className="ui button mt-5"
               // type="submit"
-              onClick={requestLogin}
+              onClick={requestRegister}
+              disabled={isRegistering || isRegisterSucceed}
               // onClick={() => dispatch(updateRole("customer"))}
             >Submit</button>
+
+            {
+              isRegisterError ?
+              <div className="alert alert-danger w-100" role="alert">
+                {errorMessage}
+              </div>
+              :
+              <></>
+            }
+            {
+              isRegisterSucceed ?
+              <div className="ui blue message mb-4">Register Successful</div>
+              :
+              <></>
+            }
           </div>
       </div>
     </div>
   );
 }
 
-export default Login;
+export default Register;

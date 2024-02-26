@@ -36,11 +36,10 @@ export let initialProduct: Product = {
 }
 
 export function getProducts (category_id) {
-
     let fetch = axios.create({
       method: "GET",
       baseURL: `${process.env.REACT_APP_API}/product/data-category/${category_id}`
     })
 
     return fetch
-  }
+}
