@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-function Home() {
+function HomeCustomer() {
 
   let navigate = useNavigate();
 
@@ -50,4 +50,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default HomeCustomer;

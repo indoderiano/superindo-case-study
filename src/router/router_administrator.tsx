@@ -1,6 +1,7 @@
 import React from 'react'
 import { Routes, Route, Outlet, Link, Navigate } from "react-router-dom";
 import Home from '../pages/home.tsx';
+import HomeAdmin from '../pages/admin/home_admin.tsx';
 import Login from '../pages/login.tsx';
 import ManageTransaction from '../pages/admin/manage_transaction.tsx';
 import Transaction from '../pages/transaction.tsx';
@@ -14,7 +15,7 @@ function RouterAdmin() {
   return (
     <Routes>
       <Route path="/">
-        <Route index element={<Home />} />
+        <Route index element={<HomeAdmin />} />
         <Route path="product-category" element={<MasterDataProductCategory />} />
         <Route path="products" element={<MasterDataProduct />} />
         {/* <Route path="transaction" element={<Transaction />} /> */}

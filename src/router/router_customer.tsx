@@ -1,9 +1,11 @@
 import React from 'react'
 import { Routes, Route, Outlet, Link, Navigate } from "react-router-dom";
 import Home from '../pages/home.tsx';
+import HomeCustomer from '../pages/customer/home_customer.tsx';
 import Login from '../pages/login.tsx';
 import Transaction from '../pages/transaction.tsx';
-import Cart from '../pages/cart.tsx';
+// import Cart from '../pages/cart.tsx';
+import Cart from '../pages/customer/cart.tsx';
 import PageProduct from '../pages/customer/product.tsx'
 import Menu from '../components/menu/index.tsx';
 import { useAppSelector } from '../app/hooks.ts';
@@ -26,9 +28,9 @@ function RouterCustomer() {
   return (
     <Routes>
       <Route path="/">
-        <Route index element={<Home />} />
+        <Route index element={<HomeCustomer />} />
         <Route path="products" element={<PageProduct />} />
-        <Route path="transaction" element={<Transaction />} />
+        {/* <Route path="transaction" element={<Transaction />} /> */}
         {/* <Route path="manage-transaction" element={<ManageTransaction />} /> */}
         {/* <Route path="login" element={<Login />} /> */}
         <Route path="cart" element={<Cart />} />

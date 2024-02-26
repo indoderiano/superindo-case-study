@@ -28,6 +28,9 @@ function Logout() {
 
   return (
     <div
+      style={{
+        cursor: "pointer",
+      }}
       onClick={logout}
     >
       Logout

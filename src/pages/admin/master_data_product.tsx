@@ -245,7 +245,7 @@ function MasterDataProduct() {
                 :
                 <button
                   type="button"
-                  className="btn btn-primary"
+                  className="ui primary button"
                   onClick={requestAddTransaction}
                 >
                   Add to Cart
